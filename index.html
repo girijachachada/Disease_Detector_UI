@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Main Page</title> 
+</head>
+<body style="background-color: #dff4f4; font-family: 'Times New Roman', Times, serif;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+          <h1>Cough Detector</h1><br>
+          <h5>Welcome to our Cough Detector: Early Screening for Respiratory Infections</h5>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="services.html">Services</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contributors.html">Contributors</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+      
+    <div class="center-div">
+        <button class="button_main" onclick="recordNow()">Record Now</button>
+        <button class="button_main" onclick="uploadFile()">Upload File</button>
+    </div>  
+ 
+
+  <script>
+    function recordNow() {
+      window.location.href = "record.html";
+    }
+
+    function uploadFile() {
+      window.location.href = "upload.html";
+    }
+  </script>
+</body>
+</html>

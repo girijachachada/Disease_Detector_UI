@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Cough Detection</title>
+</head>
+
+<body style="background-color: #dff4f4; font-family: 'Times New Roman', Times, serif;">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+      <h1>Cough Detector</h1>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="services.html">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contributors.html">Contributors</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container2">
+  <h1>Cough Detection</h1>
+
+  <div>
+    <button class="button-31" id="recordButton">Record Now</button>
+    <button class="button-31" id="playButton" disabled>Play</button>
+    <button class="button-31" id="uploadRecordedButton" disabled>Upload Recorded</button>
+  </div>
+
+  <audio id="audioPlayer" controls style="display: none;"></audio>
+</div>
+  <script>
+    const recordButton = document.getElementById('recordButton');
+    const playButton = document.getElementById('playButton');
+    const uploadRecordedButton = document.getElementById('uploadRecordedButton');
+    const audioPlayer = document.getElementById('audioPlayer');
+
+    let mediaRecorder;
+    let recordedChunks = [];
+
+    recordButton.addEventListener('click', toggleRecording);
+    playButton.addEventListener('click', playRecording);
+    uploadRecordedButton.addEventListener('click', uploadRecorded);
+
+    function toggleRecording() {
+      if (recordButton.textContent === 'Record Now') {
+        startRecording();
+      } else {
+        stopRecording();
+      }
+    }
+
+    function startRecording() {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.start();
+          console.log('Recording started.');
+          recordButton.textContent = 'Stop Recording';
+
+          mediaRecorder.addEventListener('dataavailable', event => {
+            recordedChunks.push(event.data);
+          });
+
+          mediaRecorder.addEventListener('stop', () => {
+            const blob = new Blob(recordedChunks, { type: 'audio/wav' });
+            const url = URL.createObjectURL(blob);
+            audioPlayer.src = url;
+            audioPlayer.controls = true;
+            audioPlayer.style.display = 'block';
+            playButton.disabled = false;
+            uploadRecordedButton.disabled = false;
+          });
+        })
+        .catch(error => {
+          console.error('Error accessing microphone:', error);
+        });
+    }
+
+    function stopRecording() {
+      mediaRecorder.stop();
+      console.log('Recording stopped.');
+      recordButton.textContent = 'Record Now';
+    }
+
+    function playRecording() {
+      audioPlayer.play();
+    }
+
+    function uploadRecorded() {
+      const blob = new Blob(recordedChunks, { type: 'audio/wav' });
+      console.log('Recorded audio:', blob);
+    }
+  </script>
+</body>
+
+</html>
